@@ -1,5 +1,5 @@
 import CellFormatter;
-import GenData;
+import SampleData.GenData;
 
 CityRecord := record
   string2 state;

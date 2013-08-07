@@ -1,5 +1,5 @@
 import CellFormatter;
-import GenData;
+import SampleData.GenData;
 
 states := dedup(sort(GenData.Dataset_Person, state), state);
 
