@@ -1,5 +1,5 @@
 import SampleData.Miserables;
-import CellFormatter;
+import Bundles.CellFormatter;
 
 graphRecord := record
   dataset(Miserables.VertexRecord) vertices;

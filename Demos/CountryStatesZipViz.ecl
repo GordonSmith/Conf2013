@@ -1,4 +1,4 @@
-import CellFormatter;
+import Bundles.CellFormatter;
 import SampleData.GenData;
 
 CityRecord := record

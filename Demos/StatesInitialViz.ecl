@@ -1,4 +1,4 @@
-import CellFormatter;
+import Bundles.CellFormatter;
 import SampleData.GenData;
 
 states := dedup(sort(GenData.Dataset_Person, state), state);
