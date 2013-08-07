@@ -4,29 +4,29 @@ import GenData;
 CityRecord := record
   string2 state;
   qstring5 zip;
-  string1 name;
-  integer size;
+  string1 label;
+  integer stat;
 end;
 
-CityRecord toCity(GenData.Layout_Person L) := transform
-  self.name := L.middleinitial;
-  self.size := 1001;
+CityRecord toCity(GenData.StateZipCityInitial_Layout L) := transform
+  self.label := L.middleinitial;
+  self.stat := L.stat;
   SELF := L;
 end;
 
-cities := project(dedup(sort(GenData.Dataset_Person, state, zip, middleinitial), state, zip, middleinitial), toCity(LEFT));
+cities := project(GenData.StateZipCityInitial_Rollup, toCity(LEFT));
 //cities;
 
 ZipRecord := record
   string2 state;
-  qstring5 name;
-  dataset(CityRecord) children;
+  qstring5 label;
+  dataset(CityRecord) kids;
 end;
 
 ZipRecord DeNormCities(GenData.Layout_Person L, dataset(CityRecord) R2) := transform
     self.state := L.state;
-    self.name := L.zip;
-    self.children := choosen(R2, 5);
+    self.label := L.zip;
+    self.kids := choosen(R2, 6);
     self := L;
 end;
 
@@ -35,25 +35,34 @@ zipCities := DENORMALIZE(zips, cities, LEFT.zip = RIGHT.zip, GROUP, DeNormCities
 //zipCities;
 
 StateRecord := record
-  string2 name;
-  dataset(ZipRecord) children;
+  string2 label;
+  dataset(ZipRecord) kids;
 end;
 
 StateRecord DeNormZips(GenData.Layout_Person L, dataset(ZipRecord) R3) := TRANSFORM
-  self.name := L.state;
-  self.children := choosen(R3, 4);
+  self.label := L.state;
+  self.kids := choosen(R3, 5);
   self := L;
 end;
 
 states := dedup(sort(GenData.Dataset_Person, state), state);
 stateZips := DENORMALIZE(states, zipCities, LEFT.state = RIGHT.state, GROUP, DeNormZips(LEFT,ROWS(RIGHT)));
-stateZips;
+//stateZips;
 
-Viz_Layout := record
-  string12 country;
-  dataset(StateRecord) _data__hidden;
-  varstring pie__javascript;
+CountryRecord := record
+  string22 label;
+  dataset(StateRecord) kids;
 end;
 
-d3 := CellFormatter.d3('_data__hidden', 'middleinitial', 'stat');
-dataset([{'USA', choosen(stateZips, 3), d3.CirclePacking}], Viz_Layout);
+Viz_Layout := record
+  CountryRecord _data__hixden;
+  varstring test__javascript;
+  varstring js;
+  varstring cd__javascript;
+  varstring cp__javascript;
+  varstring rtt__javascript;
+  varstring sp__javascript;
+end;
+
+d3 := CellFormatter.d3Tree('_data__hixden', 'label', 'kids', 'stat');
+dataset([{{'USA', choosen(stateZips, 4)}, '', d3.ClusterDendrogram, d3.ClusterDendrogram, d3.CirclePacking, d3.ReingoldTilfordTree, d3.SunburstPartition}], Viz_Layout);
