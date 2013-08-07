@@ -1,4 +1,4 @@
-import Bundles.CellFormatter;
+import Bundles.d3;
 import SampleData.GenData;
 
 states := dedup(sort(GenData.Dataset_Person, state), state);
@@ -14,14 +14,14 @@ Viz_Layout := record
   //varstring bubble__js;
 end;
 
-d3 := CellFormatter.d3Chart('_data__hixden', 'middleinitial', 'stat');
+d3Chart := d3.Chart('_data__hixden', 'middleinitial', 'stat');
 Viz_Layout TransStates(GenData.Layout_Person L) := TRANSFORM
 	SELF.NumRows := 0;
 	SELF._data__hixden := [];
     //SELF.test__javascript := '';
-    SELF.bar__javascript := d3.BarChart;
-    SELF.pie__javascript := d3.pie;
-    SELF.bubble__javascript := d3.bubble;
+    SELF.bar__javascript := d3Chart.BarChart;
+    SELF.pie__javascript := d3Chart.pie;
+    SELF.bubble__javascript := d3Chart.bubble;
     //SELF.bubble__js := d3.bubble;
 	SELF := L;
 END;

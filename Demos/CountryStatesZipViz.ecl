@@ -1,4 +1,4 @@
-import Bundles.CellFormatter;
+import Bundles.d3;
 import SampleData.GenData;
 
 CityRecord := record
@@ -64,5 +64,5 @@ Viz_Layout := record
   varstring sp__javascript;
 end;
 
-d3 := CellFormatter.d3Tree('_data__hixden', 'label', 'kids', 'stat');
-dataset([{{'USA', choosen(stateZips, 4)}, '', d3.ClusterDendrogram, d3.ClusterDendrogram, d3.CirclePacking, d3.ReingoldTilfordTree, d3.SunburstPartition}], Viz_Layout);
+d3Tree := d3.Tree('_data__hixden', 'label', 'kids', 'stat');
+dataset([{{'USA', choosen(stateZips, 4)}, '', d3Tree.ClusterDendrogram, d3Tree.ClusterDendrogram, d3Tree.CirclePacking, d3Tree.ReingoldTilfordTree, d3Tree.SunburstPartition}], Viz_Layout);

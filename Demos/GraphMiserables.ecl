@@ -1,5 +1,5 @@
 import SampleData.Miserables;
-import Bundles.CellFormatter;
+import Bundles.d3;
 
 graphRecord := record
   dataset(Miserables.VertexRecord) vertices;
@@ -8,6 +8,6 @@ graphRecord := record
   varstring fd__js;
 end;
 
-d3 := CellFormatter.d3Graph('vertices', 'name', 'category', 'edges', 'source', 'target', 'weight');
-graphDataset := dataset([{Miserables.VertexDataset, Miserables.EdgeDataset, d3.ForceDirected, d3.ForceDirected}], graphRecord);
+d3Graph := d3.Graph('vertices', 'name', 'category', 'edges', 'source', 'target', 'weight');
+graphDataset := dataset([{Miserables.VertexDataset, Miserables.EdgeDataset, d3Graph.ForceDirected, d3Graph.ForceDirected}], graphRecord);
 graphDataset;
