@@ -9,6 +9,7 @@ Viz_Layout := record
   dataset(GenData.StateInitial_Layout) _data__hixden;
   //varstring test__javascript;
   varstring bar__javascript;
+  varstring bar__js;
   varstring pie__javascript;
   varstring bubble__javascript;
   //varstring bubble__js;
@@ -20,6 +21,7 @@ Viz_Layout TransStates(GenData.Layout_Person L) := TRANSFORM
 	SELF._data__hixden := [];
     //SELF.test__javascript := '';
     SELF.bar__javascript := d3Chart.BarChart;
+    SELF.bar__js := d3Chart.BarChart;
     SELF.pie__javascript := d3Chart.pie;
     SELF.bubble__javascript := d3Chart.bubble;
     //SELF.bubble__js := d3.bubble;
