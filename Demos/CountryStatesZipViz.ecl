@@ -55,14 +55,14 @@ CountryRecord := record
 end;
 
 Viz_Layout := record
-  CountryRecord _data__hixden;
-  varstring test__javascript;
-  varstring js;
-  varstring cd__javascript;
-  varstring cp__javascript;
-  varstring rtt__javascript;
-  varstring sp__javascript;
+  CountryRecord _data;
+  varstring ClusterDendrogram__javascript;
+  varstring CirclePacking__javascript;
+  varstring ReingoldTilfordTree__javascript;
+  varstring SunburstPartition__javascript;
 end;
 
-d3Tree := d3.Tree('_data__hixden', 'label', 'kids', 'stat');
-dataset([{{'USA', choosen(stateZips, 4)}, '', d3Tree.ClusterDendrogram, d3Tree.ClusterDendrogram, d3Tree.CirclePacking, d3Tree.ReingoldTilfordTree, d3Tree.SunburstPartition}], Viz_Layout);
+d3Tree := d3.Tree('_data', 'label', 'kids', 'stat');
+output(choosen(stateZips, 4), named('StateTree'));
+dataset([{{'USA', choosen(stateZips, 4)}, d3Tree.ClusterDendrogram, d3Tree.CirclePacking, d3Tree.ReingoldTilfordTree, d3Tree.SunburstPartition}], Viz_Layout);
+
