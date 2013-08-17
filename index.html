@@ -31,7 +31,7 @@
     <div id="co" style="width:500px; height:500px; border:medium"></div>
 -->
     <script>
-        require(["js/Workunit", "js/d3", "dojo/domReady!"], function (Workunit, d3) {
+        require(["js/workunit", "js/d3", "dojo/domReady!"], function (Workunit, d3) {
             Workunit.FetchResults("W20130817-131228", ["Miserables_Verticies", "Miserables_Edges"]).then(function (results) {
                 var d3Graph = new d3.Graph("Miserables", results.Miserables_Verticies, {
                     index: "id",
