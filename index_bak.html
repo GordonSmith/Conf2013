@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>HPCC Systems:  Visualization Test Page</title>
+    <script>
+        var ServerIP = "localhost";
+        var ServerUrl = "//" + ServerIP + ":8010/esp/files"
+        var LocalJS = location.pathname.replace(/\/[^/]+$/, "");
+        var dojoConfig = {
+            async: true,
+            parseOnLoad: false,
+            ServerIP: ServerIP,
+            packages: [
+            {
+                name: "js",
+                location: LocalJS + "/javascripts"
+            }, {
+                name: "hpcc",
+                location: ServerUrl + "/scripts"
+            }]
+        };
+    </script>
+    <script src="//localhost:8010/esp/files/dojo/dojo.js"></script>
+    <script src="//localhost:8010/esp/files/d3/d3.v3.min.js"></script>
+</head>
+<body>
+<h1>mmm</h1>
+<!--
+    <div id="fd" style="width:500px; height:500px; border:medium"></div>
+    <div id="co" style="width:500px; height:500px; border:medium"></div>
+-->
+    <script>
+        require(["js/workunit", "js/d3", "dojo/domReady!"], function (Workunit, d3) {
+            Workunit.FetchResults("W20130817-131228", ["Miserables_Verticies", "Miserables_Edges"]).then(function (results) {
+                var d3Graph = new d3.Graph("Miserables", results.Miserables_Verticies, {
+                    index: "id",
+                    name: "name",
+                    category: "category"
+                }, results.Miserables_Edges, {
+                    source: "source",
+                    target: "target",
+                    weight: "weight"
+                });
+                d3Graph.ForceDirected({
+                    domNode: "body"
+                });
+                /*
+                d3Test.CoOccurrence({
+                    domNode: "body"
+                });
+                */
+            });
+            /*
+            Workunit.FetchResults("W20130815-171322", ["StateTree"]).then(function (results) {
+                var d3Tree = new d3.Tree("States", results.StateTree, {
+                    label: "label",
+                    value: "stat",
+                    children: "kids"
+                });
+                d3Tree.CirclePacking({
+                    domNode: "body"
+                });
+                d3Tree.SunburstPartition({
+                    domNode: "body"
+                });
+                d3Tree.ReingoldTilfordTree({
+                    domNode: "body"
+                });
+                d3Tree.ClusterDendrogram({
+                    domNode: "body"
+                });
+            });
+            */
+        });
+    </script>
+</body>
+</html>
