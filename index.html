@@ -6,7 +6,7 @@
     <script>
         var ServerIP = "localhost";
         var ServerUrl = "//" + ServerIP + ":8010/esp/files"
-        var LocalJS = location.pathname.replace(/\/[^/]+$/, "") + "/js";
+        var LocalJS = location.pathname.replace(/\/[^/]+$/, "");
         var dojoConfig = {
             async: true,
             parseOnLoad: false,
