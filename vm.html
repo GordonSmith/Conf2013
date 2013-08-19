@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Conf2013 by GordonSmith</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <script>
+        var ServerIP = "192.168.1.201";
+        var ServerUrl = "//" + ServerIP + ":8010/esp/files"
+        var LocalJS = location.pathname.replace(/\/[^/]+$/, "");
+        var dojoConfig = {
+            async: true,
+            parseOnLoad: false,
+            ServerIP: ServerIP,
+            packages: [
+            {
+                name: "js",
+                location: LocalJS + "/javascripts"
+            }, {
+                name: "hpcc",
+                location: ServerUrl + "/scripts"
+            }]
+        };
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>HPCC Platform<br>
+                D3 Visualizations</h1>
+            <p></p>
+            <p class="view"><a href="https://github.com/GordonSmith/Conf2013">View the Project on GitHub <small>GordonSmith/Conf2013</small></a></p>
+            <p></p>
+        </header>
+        <section>
+            <h2>Graphs</h2>
+            <h3>Force Directed</h3>
+            <p id="fd"></p>
+            <h3>Co Occurance</h3>
+            <p id="co" style="width:920px"></p>
+            <h2>Tree</h2>
+            <h3>Cluster Dendrogram</h3>
+            <p id="cd"></p>
+            <h3>Reingold Tilford Tree</h3>
+            <p id="rtt"></p>
+            <h3>Sunburst Partition</h3>
+            <p id="sp"></p>
+            <h3>Circle Packing</h3>
+            <p id="cp"></p>
+        </section>
+        <footer>
+            <ul>
+                <li><a href="https://github.com/GordonSmith/Conf2013/zipball/master">Download <strong>ZIP File</strong></a></li>
+                <li><a href="https://github.com/GordonSmith/Conf2013/tarball/master">Download <strong>TAR Ball</strong></a></li>
+                <li><a href="https://github.com/GordonSmith/Conf2013">View On <strong>GitHub</strong></a></li>
+            </ul>
+            <p></p>
+            <p>This project is maintained by <a href="https://github.com/GordonSmith">Gordon Smith</a></p>
+        </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    <script>
+        require(["js/workunit", "js/d3", "dojo/domReady!"], function (Workunit, d3) {
+            Workunit.FetchResults("W20130815-163553", ["Miserables_Verticies", "Miserables_Edges"]).then(function (results) {
+                var d3Graph = new d3.Graph("Miserables", results.Miserables_Verticies, {
+                    index: "id",
+                    name: "name",
+                    category: "category"
+                }, results.Miserables_Edges, {
+                    source: "source",
+                    target: "target",
+                    weight: "weight"
+                });
+                d3Graph.ForceDirected({
+                    domNode: "#fd"
+                });
+                d3Graph.CoOccurrence({
+                    domNode: "#co",
+                    width: 820,
+                    height: 820
+                });
+            });
+            Workunit.FetchResults("W20130815-171322", ["StateTree"]).then(function (results) {
+                var d3Tree = new d3.Tree("States", results.StateTree, {
+                    label: "label",
+                    value: "stat",
+                    children: "kids"
+                });
+                d3Tree.CirclePacking({
+                    domNode: "#cp"
+                });
+                d3Tree.SunburstPartition({
+                    domNode: "#sp"
+                });
+                d3Tree.ReingoldTilfordTree({
+                    domNode: "#rtt"
+                });
+                d3Tree.ClusterDendrogram({
+                    domNode: "#cd"
+                });
+            });
+        });
+    </script>
+</body>
+</html>
