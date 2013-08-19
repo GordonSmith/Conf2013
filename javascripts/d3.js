@@ -32,9 +32,11 @@ define([
             for (key in mappings) {
                 if (lang.exists(mappings[key], item)) {
                     if (Object.prototype.toString.call(item[mappings[key]]) === '[object Array]') {
-                        retVal[mappings[key]] = this.delegateArray(item[mappings[key]]);
-                    } else if (parseInt(item[mappings[key]]) != isNaN) {
-                        retVal[mappings[key]] = parseInt(item[mappings[key]]);
+                        retVal[key] = this.delegateArray(item[mappings[key]], mappings);
+                    } else if (!isNaN(parseInt(item[mappings[key]]))) {
+                        retVal[key] = parseInt(item[mappings[key]]);
+                    } else {
+                        retVal[key] = item[mappings[key]];
                     }
                 }
             }
