@@ -29,6 +29,5 @@ Viz_Layout DeNormStates(Viz_Layout L, dataset(GenData.StateInitial_Layout) R) :=
 	SELF._data := R;
 	SELF := L;
 END;
-states;
+//output(states, named('StateInitial'));
 DENORMALIZE(vizStates, GenData.StateInitial_Rollup, LEFT.state = RIGHT.state, GROUP, DeNormStates(LEFT,ROWS(RIGHT)));
-

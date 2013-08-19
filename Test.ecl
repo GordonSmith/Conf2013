@@ -8,8 +8,5 @@ end;
 
 output(Cars.CarsDataset, named('cars'));
 
-d3Chart := d3.Field_Population(Cars.CarsDataset);
-
-
-
+//d3Chart := d3.Field_Population(Cars.CarsDataset);
 
