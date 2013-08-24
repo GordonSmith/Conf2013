@@ -36,7 +36,7 @@ define([
                     } else if (!isNaN(parseInt(item[mappings[key]]))) {
                         retVal[key] = parseInt(item[mappings[key]]);
                     } else {
-                        retVal[key] = item[mappings[key]];
+                        retVal[key] = item[mappings[key]].trim();
                     }
                 }
             }
