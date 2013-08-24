@@ -1,12 +1,6 @@
-import SampleData.Cars;
-import Bundles.d3;
+import Bundles.StrAlgorithms;
 
-r := record
-    dataset(Cars.CarsRecord) cars;
-    varstring pc__javascript;
-end;
-
-output(Cars.CarsDataset, named('cars'));
-
-//d3Chart := d3.Field_Population(Cars.CarsDataset);
+StrAlgorithms.Levenshtein('Gordon', 'Grodox').Result;
+StrAlgorithms.LongestCommonSubsequence('Gordon', 'Grodox').Result;
+StrAlgorithms.LongestCommonSubstring('Gordon', 'Grodox').Result;
 
