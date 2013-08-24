@@ -133,12 +133,17 @@ strncpy(__result, &result[0], __lenResult);
   END;
   
   EXPORT LongestCommonSubstring(STRING Str1, STRING Str2) := MODULE
-	INTEGER4 LongestCommonSubstringCPP(STRING s1, STRING s2) := BEGINC++
+	SET OF INTEGER4 LongestCommonSubstringCPP(STRING s1, STRING s2) := BEGINC++
 #include <string>
 using std::string;
 #body 
- if(lenS1 == 0 || lenS2 == 0)
-      return 0;
+if(lenS1 == 0 || lenS2 == 0)
+{
+	__isAllResult = true;
+	__lenResult = 0;
+	__result = NULL;
+	return;
+}
       
  //string str1 = s1;          
  //string str2 = s2;          
@@ -147,11 +152,12 @@ int *curr = new int [lenS2];
 int *prev = new int [lenS2];
 int *swap = NULL;
 int maxSubstr = 0;
+int lastSubsBegin = 0;
 for(int i = 0; i<lenS1; ++i)
 {
      for(int j = 0; j<lenS1; ++j)
      {
-          if((*s1)[i] != (*s2)[j])
+          if(s1[i] != s2[j])
           {
                curr[j] = 0;
           }
@@ -171,6 +177,17 @@ for(int i = 0; i<lenS1; ++i)
                if(maxSubstr < curr[j])
                {
                     maxSubstr = curr[j];
+					int thisSubsBegin = i - curr[j] + 1;
+                    if (lastSubsBegin == thisSubsBegin)
+                	{//if the current LCS is the same as the last time this block ran
+                    	// sequenceBuilder.Append(str1[i]);
+                    }
+                    else //this block resets the string builder if a different LCS is found
+                    {
+                    	lastSubsBegin = thisSubsBegin;
+                        //sequenceBuilder.Length = 0; //clear it
+                        //sequenceBuilder.Append(str1.Substring(lastSubsBegin, (i + 1) - lastSubsBegin));
+                    }                    
                }
           }
      }
@@ -180,9 +197,20 @@ for(int i = 0; i<lenS1; ++i)
 }
 delete [] curr;
 delete [] prev;
-return maxSubstr;
+__isAllResult = false;
+__lenResult = 2 * sizeof(size32_t);
+__result = rtlMalloc(sizeof(size32_t) *2);
+size32_t * cur = (size32_t *)__result;
+//size32_t * cur2 = (size32_t *)(__result + sizeof(size32_t));
+*cur = maxSubstr;
+*(++cur) = lastSubsBegin;
+//return lastSubsBegin;//maxSubstr;
       ENDC++;
-    EXPORT Result := LongestCommonSubstringCPP(Str1, Str2);
+    SHARED Result := LongestCommonSubstringCPP(Str1, Str2);
+    EXPORT MaxLen := Result[1];
+    INTEGER4 StartPos := Result[2] + 1;
+    INTEGER4 EndPos:=StartPos + Result[1] - 1;
+    EXPORT MaxStr := Str1[StartPos..EndPos];
   END;
 END;
  
