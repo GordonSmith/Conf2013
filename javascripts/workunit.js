@@ -64,6 +64,12 @@ define([
                 Wuid: wuid
             });
             return wu.fetchResults(resultNames);
-        }
+        },
+	Find: function(name) {
+	    var wuStore = ESPWorkunit.CreateWUQueryStore();
+	    return wuStore.query({
+		Jobname: name
+	    });
+	}
     };
 });
