@@ -39,8 +39,8 @@ TestRecord TestStrAlgo(SampleRecord l) := transform
 	self.sift3BDistance := StringMatch.Distance.Sift3B(l.Str1, l.Str2).Result;
   	self.longestCommonSubsequence := StringMatch.LongestCommonSubsequence(l.Str1, l.Str2).Result;
   	lcs := StringMatch.LongestCommonSubstring(l.Str1, l.Str2);
-  	self.longestCommonSubstring.len := lcs.MaxLen;
-  	self.longestCommonSubstring.str := lcs.MaxStr;
+  	self.longestCommonSubstring.len := lcs.ResultLength;
+  	self.longestCommonSubstring.str := lcs.Result;
 	self := l;
 end;
 
