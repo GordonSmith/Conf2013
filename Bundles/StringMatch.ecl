@@ -24,7 +24,7 @@ EXPORT StringMatch := MODULE, FORWARD
 					return lenS1;
 				}
 				
-				unsigned int dist = abs(lenS1 - lenS2);
+				unsigned int dist = (int)abs((int)(lenS1 - lenS2));
 				unsigned int len = std::min(lenS1, lenS2);
 				for (unsigned int i = 0; i < len; ++i) {
 					if (s1[i] != s2[i]) {
@@ -174,6 +174,12 @@ EXPORT StringMatch := MODULE, FORWARD
 		EXPORT Sift3B(STRING Str1, STRING Str2) := MODULE
 			REAL4 Sift3BCPP(STRING s1, STRING s2) := BEGINC++
 			#option pure
+				namespace S3B {
+					float roundf(float value) {
+					  return floor(value + 0.5);
+					}
+				}
+			#body
 				if(lenS1 == 0 && lenS2 == 0) {
 					return 0;
 				} else if (lenS1 == 0) {
@@ -210,7 +216,7 @@ EXPORT StringMatch := MODULE, FORWARD
 			        c1++;
 			        c2++;
 			    }
-				return roundf((lenS1 + lenS2) / 1.5 - lcs);
+				return S3B::roundf((lenS1 + lenS2) / 1.5 - lcs);
 			ENDC++;
 	
 			EXPORT Result := Sift3BCPP(Str1, Str2);
