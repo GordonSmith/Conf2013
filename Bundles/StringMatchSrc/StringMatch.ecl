@@ -62,7 +62,7 @@ EXPORT StringMatch := MODULE, FORWARD
 			/**	
 		   	 * @return Distance between two strings.
 			 */
-			EXPORT Result := DamerauLevenshteinCPP(Str1, Str2);
+			EXPORT Result := CPP.DamerauLevenshtein(Str1, Str2);
 		END;
 		
 		/**
@@ -76,6 +76,20 @@ EXPORT StringMatch := MODULE, FORWARD
 			 */
 			EXPORT Result := CPP.Sift3B(Str1, Str2);
 		END;
+	END;
+
+	EXPORT Jaro(STRING Str1, STRING Str2) := MODULE
+		/**	
+	   	 * @return Distance between two strings.
+		 */
+		EXPORT Result := CPP.Jaro(Str1, Str2);
+	END;
+
+	EXPORT JaroWinkler(STRING Str1, STRING Str2, INTEGER4 prefixLength) := MODULE
+		/**	
+	   	 * @return Distance between two strings.
+		 */
+		EXPORT Result := CPP.JaroWinkler(Str1, Str2, prefixLength);
 	END;
 
 	/**
@@ -108,49 +122,4 @@ EXPORT StringMatch := MODULE, FORWARD
 		 */
 	    EXPORT Result := Str1[StartPos..EndPos];
 	END;
-	
-	EXPORT Example := MODULE	
-		SampleRecord := record
-		  varstring Str1;
-		  varstring Str2;
-		end;
-		SampleDataset := dataset([
-			{'', ''},
-			{'', 'Grodox'},
-			{'Gordon', ''},
-			{'123456', '123'},
-			{'123', '123456'},
-			{'Gordon', 'Grodox'},
-			{'The lazy dog jumped over the fox', 'A lazy fox jumped over the dog'},
-			{'This Has', 'No_Common'}
-			], SampleRecord);
-		LongestCommonSubstringRecord := record
-		  integer4 len;
-		  varstring str;
-		end;
-		ExampleRecord := record
-		  varstring Str1;
-		  varstring Str2;
-		  integer4 hammingDistance;
-		  integer4 levenshteinDistance;
-		  integer4 damerauLevenshteinDistance;
-		  integer4 optimalStringAlignmentDistance;
-		  real4 sift3BDistance;
-		  varstring longestCommonSubsequence;
-		  LongestCommonSubstringRecord longestCommonSubstring;
-		end;
-		ExampleRecord toExampleRecord(SampleRecord l) := transform
-			self.hammingDistance := Distance.Hamming(l.Str1, l.Str2).Result;
-			self.levenshteinDistance := Distance.Levenshtein(l.Str1, l.Str2).Result;
-			self.damerauLevenshteinDistance := Distance.DamerauLevenshtein(l.Str1, l.Str2).Result;
-			self.optimalStringAlignmentDistance := Distance.OptimalStringAlignment(l.Str1, l.Str2).Result;
-			self.sift3BDistance := Distance.Sift3B(l.Str1, l.Str2).Result;
-		  	self.longestCommonSubsequence := LongestCommonSubsequence(l.Str1, l.Str2).Result;
-		  	lcs := LongestCommonSubstring(l.Str1, l.Str2);
-		  	self.longestCommonSubstring.len := lcs.ResultLength;
-		  	self.longestCommonSubstring.str := lcs.Result;
-			self := l;
-		end;
-		EXPORT Result := project(SampleDataset, toExampleRecord(left));
-	END;	
 END;
