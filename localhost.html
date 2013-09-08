@@ -67,7 +67,7 @@
     </div>
     <script>
         require(["js/workunit", "js/d3", "dojo/domReady!"], function (Workunit, d3) {
-            Workunit.Find("GraphMiserables").then(function(response) {
+            Workunit.Find("GenGraphData").then(function(response) {
                 if (response.length) {
                     Workunit.FetchResults(response[0].Wuid, ["Miserables_Verticies", "Miserables_Edges"]).then(function (results) {
 			var d3Graph = new d3.Graph("Miserables", results.Miserables_Verticies, {

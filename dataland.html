@@ -40,12 +40,12 @@
             <p></p>
         </header>
         <section>
-            <h2>Graphs</h2>
+            <h2 id="graphs">Graphs</h2>
             <h3>Force Directed</h3>
             <p id="fd"></p>
             <h3>Co Occurance</h3>
             <p id="co" style="width:920px"></p>
-            <h2>Tree</h2>
+            <h2 id="tree">Tree</h2>
             <h3>Cluster Dendrogram</h3>
             <p id="cd"></p>
             <h3>Reingold Tilford Tree</h3>
@@ -68,44 +68,55 @@
     <script src="javascripts/scale.fix.js"></script>
     <script>
         require(["js/workunit", "js/d3", "dojo/domReady!"], function (Workunit, d3) {
-            Workunit.FetchResults("W20130819-044211", ["Miserables_Verticies", "Miserables_Edges"]).then(function (results) {
-                var d3Graph = new d3.Graph("Miserables", results.Miserables_Verticies, {
-                    index: "id",
-                    name: "name",
-                    category: "category"
-                }, results.Miserables_Edges, {
-                    source: "source",
-                    target: "target",
-                    weight: "weight"
-                });
-                d3Graph.ForceDirected({
-                    domNode: "#fd"
-                });
-                d3Graph.CoOccurrence({
-                    domNode: "#co",
-                    width: 720,
-                    height: 720
-                });
+            Workunit.Find("GenGraphData").then(function(response) {
+                if (response.length) {
+                    Workunit.FetchResults(response[0].Wuid, ["Miserables_Verticies", "Miserables_Edges"]).then(function (results) {
+			var d3Graph = new d3.Graph("Miserables", results.Miserables_Verticies, {
+			    index: "id",
+		            name: "name",
+			    category: "category"
+		        }, results.Miserables_Edges, {
+                            source: "source",
+                            target: "target",
+                            weight: "weight"
+                        });
+                        d3Graph.ForceDirected({
+                            domNode: "#fd"
+                        });
+                        d3Graph.CoOccurrence({
+                            domNode: "#co",
+                            width: 820,
+                            height: 820
+                         });
+                    });
+                }
             });
-            Workunit.FetchResults("W20130815-171322", ["StateTree"]).then(function (results) {
-                var d3Tree = new d3.Tree("States", results.StateTree, {
-                    label: "label",
-                    value: "stat",
-                    children: "kids"
-                });
-                d3Tree.CirclePacking({
-                    domNode: "#cp"
-                });
-                d3Tree.SunburstPartition({
-                    domNode: "#sp"
-                });
-                d3Tree.ReingoldTilfordTree({
-                    domNode: "#rtt"
-                });
-                d3Tree.ClusterDendrogram({
-                    domNode: "#cd"
-                });
-            });
+	
+            Workunit.Find("CountryStatesZipViz").then(function(response) {
+                if (response.length) {
+                    Workunit.FetchResults(response[0].Wuid, ["StateTree"]).then(function (results) {
+		        var d3Tree = new d3.Tree("States", results.StateTree, {
+		            label: "label",
+		            value: "stat",
+		            children: "kids"
+		        });
+		        d3Tree.CirclePacking({
+		            domNode: "#cp"
+		        });
+		        d3Tree.SunburstPartition({
+		            domNode: "#sp"
+		        });
+		        d3Tree.ReingoldTilfordTree({
+		            domNode: "#rtt"
+		        });
+		        d3Tree.ClusterDendrogram({
+		            domNode: "#cd"
+		        });
+		    });
+		}
+	    });
+/*
+*/
         });
     </script>
 </body>
