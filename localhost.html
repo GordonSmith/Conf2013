@@ -91,7 +91,7 @@
                 }
             });
 	
-            Workunit.Find("CountryStatesZipViz").then(function(response) {
+            Workunit.Find("GenTreeData").then(function(response) {
                 if (response.length) {
                     Workunit.FetchResults(response[0].Wuid, ["StateTree"]).then(function (results) {
 		        var d3Tree = new d3.Tree("States", results.StateTree, {
